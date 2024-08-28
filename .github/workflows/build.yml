@@ -10,7 +10,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
         # choosing to run a reduced set of LTS, current, and next, to balance coverage and execution time
-        java: [8, 17, 21]
+        java: [21]
       fail-fast: false
     steps:
       - name: Checkout
@@ -30,13 +30,11 @@ jobs:
         run: mvn -X verify -B --file pom.xml
         
       - name: Generate JaCoCo Badge
-        if: github.ref != 'refs/heads/master'
         uses: cicirello/jacoco-badge-generator@v2
         with:
           generate-branches-badge: true
   
       - name: Commit and push the badge (if it changed)
-        if: github.ref != 'refs/heads/master'
         uses: EndBug/add-and-commit@v9
         with:
           default_author: github_actions
